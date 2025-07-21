@@ -4,8 +4,13 @@ services:
   kali:
     image: kalilinux/kali-rolling
     container_name: kali
-    stdin_open: true        # コンテナにアタッチするため
-    tty: true               # ターミナルを有効にする
+    stdin_open: true
+    tty: true
     volumes:
-      - ./data:/root/workspace  # ホストと共有するディレクトリ
-    command: /bin/bash     # 起動時にbashを使う
+      - ./data:/root/workspace
+    command: >
+      /bin/bash -c "apt update &&
+                   apt upgrade -y &&
+                   apt autoremove -y &&
+                   apt autoclean &&
+                   exec /bin/bash"
